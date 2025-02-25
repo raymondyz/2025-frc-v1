@@ -25,11 +25,11 @@ public class Robot extends TimedRobot {
   private final PWMVictorSPX m_leftDrive = new PWMVictorSPX(0);
   private final PWMVictorSPX m_rightDrive = new PWMVictorSPX(1);
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
-  private final Joystick m_controller = new Joystick(0);
+  private final Joystick joystick = new Joystick(0);
 
-  private final PWMVictorSPX m_arm = new PWMVictorSPX(2);
+  private final PWMVictorSPX m_shooter = new PWMVictorSPX(5);
   // private final Timer m_timer = new Timer();
-  private final PWMVictorSPX m_arm2 = new PWMVictorSPX(3);
+  private final PWMVictorSPX m_hangArm = new PWMVictorSPX(2);
 
   private Integer ArmTimerCycles = 0;
 
@@ -94,35 +94,46 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(-m_controller.getY(), -0.85*m_controller.getTwist());
+
+    // Drive Code
+    double speedScaler = 1;
+    if (joystick.getRawButton(1)) {
+      speedScaler = 0.7;
+    }
+    m_robotDrive.arcadeDrive(-speedScaler*joystick.getY(), -0.85*speedScaler*joystick.getTwist());
+
+    // Shooter Code
+    if (joystick.getRawButton(3)) {
+      m_shooter.set(0.7);
+    }
+    else if (joystick.getRawButton(5)) {
+      m_shooter.set(0);
+    }
+    else {
+      m_shooter.set(0.2);
+    }
+    
+
+
 
     Integer CycleLimit = 100;
 
     Double speed = 0.3;
-    if (m_controller.getRawButton(3)) {
+    if (joystick.getRawButton(3)) {
       ArmTimerCycles += 1;
       if (ArmTimerCycles > CycleLimit) {
-        m_arm.set(1);
+        m_hangArm.set(1);
       }
     }
-    else if (m_controller.getRawButton(4)) {
+    else if (joystick.getRawButton(4)) {
       ArmTimerCycles += 1;
       if (ArmTimerCycles > CycleLimit) {
-        m_arm.set(-1);
+        m_hangArm.set(-1);
       }
     }
     else {
-      m_arm.set(0.0);
+      m_hangArm.set(0.0);
       ArmTimerCycles = 0;
-    }
-    if (m_controller.getRawButton(1)) {
-      m_arm2.set(0.5);
-    } 
-    else if (m_controller.getRawButton(7)) {
-      m_arm.set(-0.5);
-    } 
-    else {
-      m_arm2.set(0.0);
     }
   }
 
