@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -22,14 +23,19 @@ public class Robot extends TimedRobot {
   // private static final String kCustomAuto = "My Auto";
   // private String m_autoSelected;
   // private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  
+  // ========== Motors ==========
   private final PWMVictorSPX m_leftDrive = new PWMVictorSPX(0);
   private final PWMVictorSPX m_rightDrive = new PWMVictorSPX(1);
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
-  private final Joystick joystick = new Joystick(0);
 
   private final PWMVictorSPX m_shooter = new PWMVictorSPX(5);
-  // private final Timer m_timer = new Timer();
   private final PWMVictorSPX m_hangArm = new PWMVictorSPX(2);
+
+  private final Joystick joystick = new Joystick(0);
+
+
+  private final Timer timer = new Timer();
 
   private Integer ArmTimerCycles = 0;
 
@@ -95,14 +101,18 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    // Drive Code
-    double speedScaler = 1;
-    if (joystick.getRawButton(1)) {
-      speedScaler = 0.7;
-    }
-    m_robotDrive.arcadeDrive(-speedScaler*joystick.getY(), -0.85*speedScaler*joystick.getTwist());
+    // ========== Drive Code ==========
 
-    // Shooter Code
+    if (joystick.getRawButton(1)) {
+      m_robotDrive.arcadeDrive(-joystick.getY(), -0.85*joystick.getTwist());
+    }
+    else {
+      m_robotDrive.arcadeDrive(-0.7*joystick.getY(), -0.7*0.85*joystick.getTwist());
+    }
+
+
+    // ========== Shooter Code ==========
+  
     if (joystick.getRawButton(3)) {
       m_shooter.set(0.7);
     }
@@ -113,27 +123,16 @@ public class Robot extends TimedRobot {
       m_shooter.set(0.2);
     }
     
+    // ========== Hang Code ==========
 
-
-
-    Integer CycleLimit = 100;
-
-    Double speed = 0.3;
     if (joystick.getRawButton(3)) {
-      ArmTimerCycles += 1;
-      if (ArmTimerCycles > CycleLimit) {
-        m_hangArm.set(1);
-      }
+      m_hangArm.set(0.7);
     }
     else if (joystick.getRawButton(4)) {
-      ArmTimerCycles += 1;
-      if (ArmTimerCycles > CycleLimit) {
-        m_hangArm.set(-1);
-      }
+      m_hangArm.set(-0.5);
     }
     else {
-      m_hangArm.set(0.0);
-      ArmTimerCycles = 0;
+      m_hangArm.set(0);
     }
   }
 
