@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
 
 
   public Robot() {
-
     // ========== Auto Chooser ========== //
     autoChooser.setDefaultOption("Center Auto", kCenterAuto);
     autoChooser.addOption("Left Auto", kLeftAuto);
@@ -116,8 +115,6 @@ public class Robot extends TimedRobot {
 
 
 
-
-
   // ================================================== Auto Control ================================================== //
 
 
@@ -147,21 +144,25 @@ public class Robot extends TimedRobot {
         break;
 
       default:
-        // Default no auto
         break;
     }
   }
 
   public void auto_drive(double startTime, double endTime, double speed, double rotation) {
-    if (startTime <= timer.get() && timer.get() <= endTime) {
+    if (startTime <= timer.get() && timer.get() < endTime) {
       robotDrive.arcadeDrive(speed, rotation, false);
     }
   }
 
   public void centerAuto() {
-    if (timer.hasElapsed(3)) {
-      robotDrive.arcadeDrive(0.25, 0);
-    }
+    double speed = 0.25;
+    double initialPauseTime = 3;
+    double driveForwardTime = 2;
+
+    // Drive forward
+    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, speed, 0);
+
+    robotDrive.stopMotor();
   }
 
   public void rightAuto() {
