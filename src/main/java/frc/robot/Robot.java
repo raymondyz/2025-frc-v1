@@ -30,15 +30,14 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
 
   private final PWMVictorSPX m_shooter = new PWMVictorSPX(2);
-  private final PWMVictorSPX m_hangWinch = new PWMVictorSPX(5);
-  private final PWMVictorSPX m_hangBelt = new PWMVictorSPX(4);
+  private final PWMVictorSPX m_hangWinch = new PWMVictorSPX(6);
+  private final PWMVictorSPX m_hangBelt = new PWMVictorSPX(5);
 
   private final Joystick joystick = new Joystick(0);
 
 
   private final Timer timer = new Timer();
 
-  private Integer ArmTimerCycles = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -135,15 +134,18 @@ public class Robot extends TimedRobot {
         m_hangWinch.set(0.9);
       }
       else {
-        m_hangBelt.set(0.5);
+        m_hangBelt.set(0.3);
+        m_hangWinch.set(0.3);
       }
     }
     // Disengage arm
     else if (joystick.getRawButton(4)) {
-      m_hangBelt.set(-0.5);
+      m_hangBelt.set(-0.3);
+      m_hangWinch.set(-0.3);
     }
     else {
       m_hangBelt.set(0);
+      m_hangWinch.set(0);
     }
   }
 
