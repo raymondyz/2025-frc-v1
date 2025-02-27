@@ -79,10 +79,13 @@ public class Robot extends TimedRobot {
     // ========== Shooter Code ========== //
   
     if (joystick.getRawButton(3)) {
-      shooter.set(0.55);
+      if (joystick.getRawButton(1)) {
+        shooter.set(0.7);
+      }
+      shooter.set(0.45);
     }
     else if (joystick.getRawButton(5)) {
-      shooter.set(-0.1);
+      shooter.set(-0.05);
     }
     else {
       shooter.set(0.1);
@@ -100,7 +103,7 @@ public class Robot extends TimedRobot {
       // Check if full engage
       if (joystick.getRawButton(1)) {
         hangBelt.set(-0.3);
-        hangWinch.set(-0.6);
+        hangWinch.set(0.6);
       }
       else {
         hangBelt.set(-0.2);
@@ -129,6 +132,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    // centerAuto();
     switch (selectedAuto) {
 
       case kCenterAuto:
@@ -162,7 +166,7 @@ public class Robot extends TimedRobot {
     // Drive forward
     auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, speed, 0);
 
-    robotDrive.stopMotor();
+    // robotDrive.stopMotor();
   }
 
   public void rightAuto() {
