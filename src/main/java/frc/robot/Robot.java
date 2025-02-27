@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
 
   private final PWMVictorSPX m_shooter = new PWMVictorSPX(2);
-  private final PWMVictorSPX m_hangWinch = new PWMVictorSPX(6);
+  private final PWMSparkMax m_hangWinch = new PWMSparkMax(6);
   private final PWMVictorSPX m_hangBelt = new PWMVictorSPX(5);
 
   private final Joystick joystick = new Joystick(0);
@@ -125,23 +126,22 @@ public class Robot extends TimedRobot {
     
     // ========== Hang Code ========== //
 
-    // Engage arm
+    // Deploy arm
     if (joystick.getRawButton(6)) {
-
+      m_hangBelt.set(0.3);
+      m_hangWinch.set(0);
+    }
+    // Pull arm back
+    else if (joystick.getRawButton(4)) {
       // Check if full engage
       if (joystick.getRawButton(1)) {
-        m_hangBelt.set(0.9);
-        m_hangWinch.set(0.9);
+        m_hangBelt.set(-0.4);
+        m_hangWinch.set(-0.9);
       }
       else {
-        m_hangBelt.set(0.3);
-        m_hangWinch.set(0.3);
+        m_hangBelt.set(-0.4*0.6);
+        m_hangWinch.set(0);
       }
-    }
-    // Disengage arm
-    else if (joystick.getRawButton(4)) {
-      m_hangBelt.set(-0.3);
-      m_hangWinch.set(-0.3);
     }
     else {
       m_hangBelt.set(0);
