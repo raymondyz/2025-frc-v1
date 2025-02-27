@@ -29,8 +29,9 @@ public class Robot extends TimedRobot {
   private final PWMVictorSPX m_rightDrive = new PWMVictorSPX(1);
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
 
-  private final PWMVictorSPX m_shooter = new PWMVictorSPX(5);
-  private final PWMVictorSPX m_hangArm = new PWMVictorSPX(2);
+  private final PWMVictorSPX m_shooter = new PWMVictorSPX(2);
+  private final PWMVictorSPX m_hangWinch = new PWMVictorSPX(5);
+  private final PWMVictorSPX m_hangBelt = new PWMVictorSPX(4);
 
   private final Joystick joystick = new Joystick(0);
 
@@ -114,25 +115,35 @@ public class Robot extends TimedRobot {
     // ========== Shooter Code ==========
   
     if (joystick.getRawButton(3)) {
-      m_shooter.set(0.7);
+      m_shooter.set(0.5);
     }
     else if (joystick.getRawButton(5)) {
       m_shooter.set(0);
     }
     else {
-      m_shooter.set(0.2);
+      m_shooter.set(0.1);
     }
     
-    // ========== Hang Code ==========
+    // ========== Hang Code ========== //
 
-    if (joystick.getRawButton(3)) {
-      m_hangArm.set(0.7);
+    // Engage arm
+    if (joystick.getRawButton(6)) {
+
+      // Check if full engage
+      if (joystick.getRawButton(1)) {
+        m_hangBelt.set(0.9);
+        m_hangWinch.set(0.9);
+      }
+      else {
+        m_hangBelt.set(0.5);
+      }
     }
+    // Disengage arm
     else if (joystick.getRawButton(4)) {
-      m_hangArm.set(-0.5);
+      m_hangBelt.set(-0.5);
     }
     else {
-      m_hangArm.set(0);
+      m_hangBelt.set(0);
     }
   }
 
