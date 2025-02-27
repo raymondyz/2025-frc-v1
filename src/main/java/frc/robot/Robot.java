@@ -115,10 +115,10 @@ public class Robot extends TimedRobot {
     // ========== Shooter Code ==========
   
     if (joystick.getRawButton(3)) {
-      m_shooter.set(0.5);
+      m_shooter.set(0.55);
     }
     else if (joystick.getRawButton(5)) {
-      m_shooter.set(0);
+      m_shooter.set(-0.1);
     }
     else {
       m_shooter.set(0.1);
@@ -135,11 +135,11 @@ public class Robot extends TimedRobot {
     else if (joystick.getRawButton(4)) {
       // Check if full engage
       if (joystick.getRawButton(1)) {
-        m_hangBelt.set(-0.4);
-        m_hangWinch.set(-0.9);
+        m_hangBelt.set(-0.3);
+        m_hangWinch.set(-0.6);
       }
       else {
-        m_hangBelt.set(-0.4*0.6);
+        m_hangBelt.set(-0.2);
         m_hangWinch.set(0);
       }
     }
