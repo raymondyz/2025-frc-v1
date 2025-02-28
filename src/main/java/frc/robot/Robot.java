@@ -84,24 +84,36 @@ public class Robot extends TimedRobot {
 
     // ========== Shooter Code ========== //
   
+    // if (joystick.getRawButton(3)) {
+    //   if (joystick.getRawButton(1)) {
+    //     shooter.set(0.7);
+    //   }
+    //   else {
+    //     shooter.set(0.45);
+    //   }
+    // }
+    // else if (joystick.getRawButton(5)) {
+    //   if (joystick.getRawButton(1)) {
+    //     shooter.set(-0.1);
+    //   }
+    //   else {
+    //     shooter.set(-0.05);
+    //   }
+    // }
+    // else {
+    //   shooter.set(0.1);
+    // }
+
+    // ========== Ratchet Code ========== //
+
     if (joystick.getRawButton(3)) {
-      if (joystick.getRawButton(1)) {
-        shooter.set(0.7);
-      }
-      else {
-        shooter.set(0.45);
-      }
+      shooter.set(0.1);
     }
     else if (joystick.getRawButton(5)) {
-      if (joystick.getRawButton(1)) {
-        shooter.set(-0.1);
-      }
-      else {
-        shooter.set(-0.05);
-      }
+      shooter.set(-0.1);
     }
     else {
-      shooter.set(0.1);
+      shooter.set(0);
     }
     
     // ========== Hang Code ========== //
@@ -124,7 +136,7 @@ public class Robot extends TimedRobot {
       }
     }
     else if (joystick.getRawButton(7)) {
-      hangWinch.set(-0.2);
+      hangWinch.set(-0.8);
     }
     else {
       hangBelt.set(0);
@@ -181,34 +193,35 @@ public class Robot extends TimedRobot {
   public void centerAuto() {
     double speed = 0.30;
     double initialPauseTime = 3;
-    double driveForwardTime = 6;
+    double driveForwardTime = 3;
     double rotation = 0.02; // Left Weak Correction
 
-    if (timer.get() < 1) {
-      shooter.set(0.55);
-    }
-    else if (timer.get() < 2.5) {
-      shooter.set(-0.07);
-    }
-    else {
-      shooter.set(0);
-    }
+    // if (timer.get() < 1) {
+    //   shooter.set(0.55);
+    // }
+    // else if (timer.get() < 2.5) {
+    //   shooter.set(-0.07);
+    // }
+    // else {
+    //   shooter.set(0);
+    // }
 
 
     // Drive forward
     robotDrive.arcadeDrive(0, 0);
-    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, 0.2, rotation);
+    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, 0.8, rotation);
 
     // Shoot Coral
     
     if (timer.get() > initialPauseTime + driveForwardTime + 5) {
-      // robotDrive.arcadeDrive(0, 0);
+      robotDrive.arcadeDrive(0, 0);
     }
     if (timer.get() > initialPauseTime + driveForwardTime + 2.5) {
-      robotDrive.arcadeDrive(-0.5, rotation);
+      // robotDrive.arcadeDrive(-0.5, rotation);
+      robotDrive.arcadeDrive(0, 0);
     }
     else if (timer.get() > initialPauseTime + driveForwardTime + 2) {
-      shooter.set(0.65);
+      // shooter.set(0.65);
     }
     
   }
