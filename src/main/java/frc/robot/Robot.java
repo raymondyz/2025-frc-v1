@@ -202,7 +202,7 @@ public class Robot extends TimedRobot {
     // Shoot Coral
     
     if (timer.get() > initialPauseTime + driveForwardTime + 5) {
-      robotDrive.arcadeDrive(0, 0);
+      // robotDrive.arcadeDrive(0, 0);
     }
     if (timer.get() > initialPauseTime + driveForwardTime + 2.5) {
       robotDrive.arcadeDrive(-0.5, rotation);
