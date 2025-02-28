@@ -66,13 +66,19 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    // Check If Flipped Controls
+    double inputY = joystick.getY();
+    if (joystick.getRawButton(2)) {
+      inputY *= -1;
+    }
+
     // ========== Drive Code ========== //
 
     if (joystick.getRawButton(1)) {
-      robotDrive.arcadeDrive(-joystick.getY(), -0.85*joystick.getTwist());
+      robotDrive.arcadeDrive(-0.7*inputY, -0.7*0.85*joystick.getTwist());
     }
     else {
-      robotDrive.arcadeDrive(-0.7*joystick.getY(), -0.7*0.85*joystick.getTwist());
+      robotDrive.arcadeDrive(-inputY, -0.85*joystick.getTwist());
     }
 
 
@@ -82,10 +88,17 @@ public class Robot extends TimedRobot {
       if (joystick.getRawButton(1)) {
         shooter.set(0.7);
       }
-      shooter.set(0.45);
+      else {
+        shooter.set(0.45);
+      }
     }
     else if (joystick.getRawButton(5)) {
-      shooter.set(-0.05);
+      if (joystick.getRawButton(1)) {
+        shooter.set(-0.1);
+      }
+      else {
+        shooter.set(-0.05);
+      }
     }
     else {
       shooter.set(0.1);
@@ -128,28 +141,29 @@ public class Robot extends TimedRobot {
     System.out.println("Auto selected: " + selectedAuto);
 
     timer.reset();
+    timer.start();
   }
 
   @Override
   public void autonomousPeriodic() {
-    // centerAuto();
-    switch (selectedAuto) {
+    centerAuto();
+    // switch (selectedAuto) {
 
-      case kCenterAuto:
-        centerAuto();
-        break;
+    //   case kCenterAuto:
+    //     centerAuto();
+    //     break;
 
-      case kRightAuto:
-        rightAuto();
-        break;
+    //   case kRightAuto:
+    //     rightAuto();
+    //     break;
 
-      case kLeftAuto:
-        leftAuto();
-        break;
+    //   case kLeftAuto:
+    //     leftAuto();
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
   }
 
   public void auto_drive(double startTime, double endTime, double speed, double rotation) {
@@ -158,15 +172,37 @@ public class Robot extends TimedRobot {
     }
   }
 
+  /**
+   * 
+   */
   public void centerAuto() {
-    double speed = 0.25;
+    double speed = 0.30;
     double initialPauseTime = 3;
-    double driveForwardTime = 2;
+    double driveForwardTime = 4;
+    double rotation = -0.05; // Left Weak Correction
+
+    if (timer.get() < 1) {
+      shooter.set(0.55);
+    }
+    else if (timer.get() < 2.5) {
+      shooter.set(-0.07);
+    }
+    else {
+      shooter.set(0);
+    }
+
 
     // Drive forward
-    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, speed, 0);
+    robotDrive.arcadeDrive(0, 0);
+    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, speed, rotation);
 
-    // robotDrive.stopMotor();
+    if (timer.get() > initialPauseTime + driveForwardTime + 1.5) {
+      robotDrive.arcadeDrive(-0.5, rotation);
+    }
+    else if (timer.get() > initialPauseTime + driveForwardTime + 1) {
+      shooter.set(0.65);
+    }
+    
   }
 
   public void rightAuto() {
