@@ -178,8 +178,8 @@ public class Robot extends TimedRobot {
   public void centerAuto() {
     double speed = 0.30;
     double initialPauseTime = 3;
-    double driveForwardTime = 4;
-    double rotation = -0.05; // Left Weak Correction
+    double driveForwardTime = 6;
+    double rotation = -0.04; // Left Weak Correction
 
     if (timer.get() < 1) {
       shooter.set(0.55);
@@ -194,8 +194,9 @@ public class Robot extends TimedRobot {
 
     // Drive forward
     robotDrive.arcadeDrive(0, 0);
-    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, speed, rotation);
+    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, 0.2, rotation);
 
+    if (timer.get() > initialPauseTime + driveForwardTime + 4)
     if (timer.get() > initialPauseTime + driveForwardTime + 1.5) {
       robotDrive.arcadeDrive(-0.5, rotation);
     }
