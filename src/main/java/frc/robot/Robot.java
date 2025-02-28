@@ -108,12 +108,15 @@ public class Robot extends TimedRobot {
 
     if (joystick.getRawButton(3)) {
       shooter.set(0.1);
+      hangWinch.set(-0.8);
     }
     else if (joystick.getRawButton(5)) {
       shooter.set(-0.1);
+      hangWinch.set(-0.8);
     }
     else {
       shooter.set(0);
+      hangWinch.set(0);
     }
     
     // ========== Hang Code ========== //
