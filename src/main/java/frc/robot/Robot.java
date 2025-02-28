@@ -179,7 +179,7 @@ public class Robot extends TimedRobot {
     double speed = 0.30;
     double initialPauseTime = 3;
     double driveForwardTime = 6;
-    double rotation = -0.04; // Left Weak Correction
+    double rotation = 0.02; // Left Weak Correction
 
     if (timer.get() < 1) {
       shooter.set(0.55);
