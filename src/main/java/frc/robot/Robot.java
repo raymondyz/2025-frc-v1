@@ -75,10 +75,10 @@ public class Robot extends TimedRobot {
     // ========== Drive Code ========== //
 
     if (joystick.getRawButton(1)) {
-      robotDrive.arcadeDrive(-0.7*inputY, -0.7*0.85*joystick.getTwist());
+      robotDrive.arcadeDrive(-0.7*inputY, -0.85*0.75*joystick.getTwist());
     }
     else {
-      robotDrive.arcadeDrive(-inputY, -0.85*joystick.getTwist());
+      robotDrive.arcadeDrive(-inputY, -0.75*joystick.getTwist());
     }
 
 
@@ -122,6 +122,9 @@ public class Robot extends TimedRobot {
         hangBelt.set(-0.2);
         hangWinch.set(0);
       }
+    }
+    else if (joystick.getRawButton(7)) {
+      hangWinch.set(-0.2);
     }
     else {
       hangBelt.set(0);
