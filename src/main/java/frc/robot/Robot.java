@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
+import edu.wpi.first.cameraserver.CameraServer;;
+
 
 
 
@@ -53,6 +55,8 @@ public class Robot extends TimedRobot {
 
     // ========== Drive Init ========== //
     rightDrive.setInverted(true);
+
+    CameraServer.startAutomaticCapture();
   }
 
 
@@ -103,21 +107,6 @@ public class Robot extends TimedRobot {
     // else {
     //   shooter.set(0.1);
     // }
-
-    // ========== Ratchet Code ========== //
-
-    if (joystick.getRawButton(3)) {
-      shooter.set(0.1);
-      hangWinch.set(-0.8);
-    }
-    else if (joystick.getRawButton(5)) {
-      shooter.set(-0.1);
-      hangWinch.set(-0.8);
-    }
-    else {
-      shooter.set(0);
-      hangWinch.set(0);
-    }
     
     // ========== Hang Code ========== //
 
@@ -145,7 +134,27 @@ public class Robot extends TimedRobot {
       hangBelt.set(0);
       hangWinch.set(0);
     }
+
+    // ========== Ratchet Code ========== //
+
+    if (joystick.getRawButton(3)) {
+      shooter.set(0.3);
+      hangWinch.set(-0.8);
+      hangBelt.set(0.2);
+    }
+    else if (joystick.getRawButton(5)) {
+      shooter.set(-0.3);
+      hangWinch.set(-0.8);
+      hangBelt.set(0.2);
+    }
+
+    else {
+      shooter.set(0);
+    }
+
   }
+
+  
 
 
 
