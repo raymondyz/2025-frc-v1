@@ -221,7 +221,7 @@ public class Robot extends TimedRobot {
 
     // Drive forward
     robotDrive.arcadeDrive(0, 0);
-    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, 0.8, rotation);
+    auto_drive(initialPauseTime, initialPauseTime + driveForwardTime, 0.6, rotation);
 
     // Shoot Coral
     
